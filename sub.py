@@ -1,30 +1,7 @@
-from __future__ import print_function
-import httplib2
-import os
-
-from apiclient import discovery,errors
-from oauth2client import client
-from oauth2client import tools
-from oauth2client.file import Storage
-import subprocess
-import json
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
-
-SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
-CLIENT_SECRET_FILE = 'client_secret.json'
-APPLICATION_NAME = 'test'
-
-
 def get_credentials():
     """Gets valid user credentials from storage.
-
     If nothing has been stored, or if the stored credentials are invalid,
     the OAuth2 flow is completed to obtain the new credentials.
-
     Returns:
         Credentials, the obtained credential.
     """
@@ -56,13 +33,11 @@ service = discovery.build('gmail', 'v1', http=https)
 
 def GetMimeMessage(service, user_id, msg_id):
   """Get a Message and use it to create a MIME Message.
-
   Args:
     service: Authorized Gmail API service instance.
     user_id: User's email address. The special value "me"
     can be used to indicate the authenticated user.
     msg_id: The ID of the Message required.
-
   Returns:
     A MIME Message, consisting of data from Message.
   """
@@ -82,14 +57,12 @@ def GetMimeMessage(service, user_id, msg_id):
 
 def ListMessagesMatchingQuery(service, user_id, query=''):
   """List all Messages of the user's mailbox matching the query.
-
   Args:
     service: Authorized Gmail API service instance.
     user_id: User's email address. The special value "me"
     can be used to indicate the authenticated user.
     query: String used to filter messages returned.
     Eg.- 'from:user@some_domain.com' for Messages from a particular sender.
-
   Returns:
     List of Messages that match the criteria of the query. Note that the
     returned list contains Message IDs, you must use get with the
@@ -112,30 +85,8 @@ def ListMessagesMatchingQuery(service, user_id, query=''):
   except errors.HttpError, error:
     print ('An error occurred: %s' % error)
 
-def GetOutages():
-        """Get id`s of all Outage Messages in list """
-        
-        query = str(ListMessagesMatchingQuery(service,'me','kryptex')).strip('[]')
-        for ch in ["{","u'","}","'"]:
-            if ch in query:
-                query=query.replace(ch,"")
-        count = 1
-        getoutage = ""
-        splitted = query.split(' ')
-        for i in range(1,(len(splitted)),4):
-            getoutage += (splitted[count])     
-            count = count + 4
-
-        getoutage = list(getoutage.split(','))
-        return getoutage
-
-result = GetOutages()
-print(str(ListMessagesMatchingQuery(service,'me','kryptex')).strip('[]')) 
-print("\n And now print only content: \n"  )
-print(result)
 
 
 
 
-#print("At now print only content: \n"  )
-#print(result,"\n")
+
