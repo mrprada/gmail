@@ -1,0 +1,44 @@
+
+
+Table Summary :
+Product;	Company;	SerType;	IssueType;	impacttime;	Timeof;		Tickets;
+
+
+
+Table Details : 
+Product;	Company;	SerType;	IssueType;	Details;	Affected;	CLM-ver : * ;
+
+
+Table older 2 days : 
+
+Product;	Company;	SerType;	Date;		jirastat;	Assignet;	Tickets;
+
+Table less then  2 days :
+
+Restarts : 
+
+Product;	Company;	SerType;	Restart Count;
+
+
+All list  : 
+
+Product;
+Company;
+SerType;
+IssueType;
+impacttime;
+Details;
+Affected;
+Timeof;
+Tickets;
+
+From message body :
+
+Company;
+SerType;
+impactTime;
+Details;
+Affected;
+TimeOf;
+Tickets;
+

@@ -1,4 +1,5 @@
 """Get Message with given ID.
+
 """
 from __future__ import print_function
 
@@ -12,6 +13,7 @@ from apiclient import discovery,errors
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
+import re
 
 try:
     import argparse
@@ -75,7 +77,7 @@ def GetMessage(service, user_id, msg_id):
   try:
     message = service.users().messages().get(userId=user_id, id=msg_id).execute()
 
-    print ('Message snippet: %s' % message['snippet'])
+#    print ('Message snippet: %s' % message['snippet'])
 
     return message
   except errors.HttpError, error:
@@ -109,5 +111,37 @@ def GetMimeMessage(service, user_id, msg_id):
     print ('An error occurred: %s' % error)
 
 
-print(GetMimeMessage(service,'me','1622532123eb643e'))
+def content(msg_id):
+    """ Get needed content for Reports from init daily message`s 
 
+    Args : msd_id received from another function
+
+    Returns : 
+        A dictionary of lists  with  needed rows from message
+    """
+
+    result = (GetMessage(service,'me',msg_id))
+    r = base64.urlsafe_b64decode(result['payload']['parts'][1]['body']['data'].encode('ASCII'))
+    ololo = re.findall(r'<li.*?>(.*?)</li.*?>', r)
+    good = ""
+    for i in (ololo):            
+#                i.replace("",'')
+        good = good + i.replace("<br>"," ") + ","
+        good = good.replace("\xc2\xa0", " ")
+    good = list(good.split(','))
+    max = (len(good)) 
+    print(good.min())
+    return good
+    
+
+print (content('1622532123eb643e'))
+#print (len(content('1622532123eb643e')))
+    
+
+
+
+
+
+
+#    print (re.sub(r'<br>','',i))
+        
