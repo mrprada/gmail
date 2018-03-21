@@ -61,7 +61,7 @@ https = credentials.authorize(httplib2.Http())
 service = discovery.build('gmail', 'v1', http=https)
 
 
-    
+
 def GetMessage(service, user_id, msg_id):
   """Get a Message with given ID.
 
@@ -112,11 +112,11 @@ def GetMimeMessage(service, user_id, msg_id):
 
 
 def content(msg_id):
-    """ Get needed content for Reports from init daily message`s 
+    """ Get needed content for Reports from init daily message`s
 
     Args : msd_id received from another function
 
-    Returns : 
+    Returns :
         A dictionary of lists  with  needed rows from message
     """
 
@@ -124,24 +124,20 @@ def content(msg_id):
     r = base64.urlsafe_b64decode(result['payload']['parts'][1]['body']['data'].encode('ASCII'))
     ololo = re.findall(r'<li.*?>(.*?)</li.*?>', r)
     good = ""
-    for i in (ololo):            
+    for i in (ololo):
 #                i.replace("",'')
         good = good + i.replace("<br>"," ") + ","
-        good = good.replace("\xc2\xa0", " ")
-    good = list(good.split(','))
-    max = (len(good)) 
-    print(good.min())
+        good = good.replace("\xc2\xa0", " ")       # delete non-breaking spaces
+    good = list(good.split(','))               # convert str to list
+    good = good[:-1]                           # delete last empty element
     return good
-    
+
 
 print (content('1622532123eb643e'))
 #print (len(content('1622532123eb643e')))
-    
-
 
 
 
 
 
 #    print (re.sub(r'<br>','',i))
-        
