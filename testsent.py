@@ -22,26 +22,27 @@ try:
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
-def Oleg():
+def first():
     return ('Alexander Shpiller')
-def Vasya():
-    return('Artvazad Tanoyan')
+def second():
+    return('Artavazad Tanoyan')
 def Another():
     another = input('Enter a case manager :'  )
     return another
 
 SCOPES = 'https://mail.google.com/'
-CLIENT_SECRET_FILE = '~/.credentials/client_secret.json'
+CLIENT_SECRET_FILE = '/home/opryadka/.credentials/client_secret.json'
 APPLICATION_NAME = 'test'
-manage = { 1 : Oleg,
-           2 : Vasya,
+manage = { 1 : first,
+           2 : second,
            3 : Another,
 }
-
-time = str(input('Date of Outage in (UTC+2) like %s : ' %datetime.datetime.now))
-case_manage = manage[input('\n\n1)Oleg\n2)Vasya\n3)Another\n\nSelect Case Manager: ')]()
-impact_time = input('\nTime of ipact in minutes : ')
-action = input('\nAction to date: ')
+environment = raw_input('Name of impacted customer Environment  : ')
+time = (datetime.datetime.utcnow() - datetime.timedelta(hours=5)).strftime('%H:%M AM %m/%d/%Y EDT')
+#time = str(input('Date of Outage in (UTC+2) like %s : ' %datetime.datetime.now))
+case_manage = manage[input('\n\n1)Alexander Shpiller\n2)Artavazd Tanoyan\n3)Another\n\nSelect Case Manager: ')]()
+impact_time = raw_input('\nTime of ipact in minutes : ')
+action = raw_input('\nAction to date: ')
 
 
 
@@ -78,9 +79,9 @@ service = discovery.build('gmail', 'v1', http=https)
 
 sender =  'pryadka1990@gmail.com'
 to = 'opryadka@determine.com'
-subject = '[noc-outage-alert] test outage init'
+subject = '[noc-outage-alert] %s outage init' %environment
 #message_text  = '1)Time: {time} \n2)Case Manage: {case_manage} \n3)Time of impact: {impact_time}\n3)Time of impact: {action}'
-message_text = '1)Time: %s \n' %time + '2)Case Manage: %s \n' %case_manage + '3)Time of impact: %s \n' %impact_time + '3)Action to date: %s \n' %action
+message_text = '1)Time: %s \n' %time + '2)Case Manage: %s \n' %case_manage + '3)Time of impact: %s \n'  %impact_time +'4)Action to date: %s \n' %action
 def SendMessage(service, user_id, message):
   """Send an email message.
 
@@ -150,8 +151,12 @@ def query_yes_no(question, default="yes"):
         else:
             sys.stdout.write("Please respond with 'yes' or 'no' "
                          "(or 'y' or 'n').\n")
-print('Result of outage-init message \n',message_text)
-if (query_yes_no('Do you like to send this Message ? ', default="yes")) == True:
+
+if (query_yes_no('Do you like to create  Outage ? ', default="no")) == True:
+    print('Outage ticket "#"number was created. Let`s create init mail message : \n')
+    SendMessage(service,"me",msg_to_send)
+print('Result of outage-init message :\n\n','Subject :  %s \n' %subject,'\n%s'%message_text)
+if (query_yes_no('Do you like to send this Message ? ', default="no")) == True:
     msg_to_send = CreateMessage(sender, to, subject, message_text)
     SendMessage(service,"me",msg_to_send)
 else:
@@ -160,4 +165,4 @@ else:
 
 
 #msg_to_send = CreateMessage(sender, to, subject, message_text)
-#SendMessage(service,"me",msg_to_send)
+#SendMessage(service,"me",msg_to_s
