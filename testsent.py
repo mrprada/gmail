@@ -27,7 +27,7 @@ def first():
 def second():
     return('Artavazad Tanoyan')
 def Another():
-    another = input('Enter a case manager :'  )
+    another = raw_input('Enter a case manager :'  )
     return another
 
 SCOPES = 'https://mail.google.com/'
@@ -81,7 +81,7 @@ sender =  'pryadka1990@gmail.com'
 to = 'opryadka@determine.com'
 subject = '[noc-outage-alert] %s outage init' %environment
 #message_text  = '1)Time: {time} \n2)Case Manage: {case_manage} \n3)Time of impact: {impact_time}\n3)Time of impact: {action}'
-message_text = '1)Time: %s \n' %time + '2)Case Manage: %s \n' %case_manage + '3)Time of impact: %s \n'  %impact_time +'4)Action to date: %s \n' %action
+message_text = '1. Time: %s \n' %time + '2. Case Manage: %s \n' %case_manage + '3. Time of impact: %s \n'  %impact_time +'4. Action to date: %s \n' %action
 def SendMessage(service, user_id, message):
   """Send an email message.
 
