@@ -17,6 +17,10 @@ import os
 import sys
 from apiclient import discovery,errors
 import datetime
+import requests
+from requests.auth import HTTPBasicAuth
+import json
+
 try:
     import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
@@ -152,9 +156,20 @@ def query_yes_no(question, default="yes"):
             sys.stdout.write("Please respond with 'yes' or 'no' "
                          "(or 'y' or 'n').\n")
 
+def CreateOutage():
+    postdata = '{ "fields": { "project": { "key": "NOC" }, "summary": " cutomer outage ", "description": "Creating of an issue using project keys and issue type names using the REST API", "assignee": {     "name": "bitwisher"   }, "issuetype": { "name": "Outage task" } } }'
+    postdata = json.loads(postdata)
+    url = "https://outage.atlassian.net/rest/api/2/issue"
+    headers = {'Content-Type': 'application/json'}
+    r = requests.post(url,json=postdata, headers=headers,auth=HTTPBasicAuth('bitwisher@ukr.net', 'Revolution_123'))
+    print (r.json())
+    print (r.status_code)
+    print (r)
+
+
 if (query_yes_no('Do you like to create  Outage ? ', default="no")) == True:
-    print('Outage ticket "#"number was created. Let`s create init mail message : \n')
-    SendMessage(service,"me",msg_to_send)
+    CreateOutage()
+
 print('Result of outage-init message :\n\n','Subject :  %s \n' %subject,'\n%s'%message_text)
 if (query_yes_no('Do you like to send this Message ? ', default="no")) == True:
     msg_to_send = CreateMessage(sender, to, subject, message_text)
