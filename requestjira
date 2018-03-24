@@ -1,0 +1,7 @@
+curl -D- \
+   -u pryadka1990@gmail.com:YoUICvGeLMAVhVRdPNqLD7F6 \
+   -X GET \
+   -H "Content-Type: application/json" \
+   https://outage.atlassian.net/browse/NOC-1 --insecure
+
+
